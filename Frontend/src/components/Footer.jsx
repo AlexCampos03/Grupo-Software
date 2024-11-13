@@ -32,7 +32,7 @@ const Footer = () => {
           
           <div className="my-2 flex items-center">
             <img src={instagram} alt="instagram" className="mr-2 w-6 h-6" />
-            <a href="https://instagram.com/professionnet_proyectowebsito?igshid=NzZlODBkYWE4Ng%3D%3D&utm_source=qr" className="text-white text-sm hover:text-blue-300">Instagram</a>
+            <a href="https://instagram.com/" className="text-white text-sm hover:text-blue-300">Instagram</a>
           </div>
 
           <div className="my-2 flex items-center">
