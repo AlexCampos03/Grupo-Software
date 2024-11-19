@@ -1,0 +1,46 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const ApplicationCard = ({ applicantName, offerTitle, status }) => (
+  <div className="bg-white rounded-lg shadow-lg p-6">
+    <h3 className="text-lg font-bold">Postulante: {applicantName}</h3>
+    <p className="text-gray-800">Oferta: {offerTitle}</p>
+    <p className="text-gray-500">Estado: {status}</p>
+  </div>
+);
+
+const AdminApplicationsPage = () => {
+  const [applications, setApplications] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        const response = await axios.get('http://localhost:'); 
+        setApplications(response.data.applications); 
+      } catch (err) {
+        console.error('Error al obtener las postulaciones:', err);
+        setError('No se pudieron cargar las postulaciones. Inténtalo más tarde.');
+      }
+    };
+
+    fetchApplications();
+  }, []);
+
+  return (
+    <div className="container mx-auto p-6">
+      <h1 className="text-3xl font-bold text-center my-6">Postulaciones de Usuarios</h1>
+      {error ? (
+        <div className="text-red-500 text-center">{error}</div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {applications.map((application) => (
+            <ApplicationCard key={application._id} {...application} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AdminApplicationsPage;
