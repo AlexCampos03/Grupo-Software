@@ -12,7 +12,7 @@ connectDB();
 app.use(express.json());  
 app.use('/api/auth', authRoutes);  
 app.use('/api/user', userRoutes);  
-app.use('/api/job-application', jobApplicationRoutes);  
+app.use('/api/job-application', jobApplicationRoutes); 
 app.use('/api/cv', cvRoutes);  
 app.use('/api/feedback', feedbackRoutes);  
 
