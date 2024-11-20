@@ -3,7 +3,6 @@ import { Link, Navigate, redirect } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Logo from '../assets/Logo.png';
 import NewsImage from '../assets/Empleado.png';
 import { useState } from 'react';
 import axios from 'axios';
@@ -57,8 +56,7 @@ export default function Login() {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-blue-800 to-teal-500 py-2">
       {shouldNavigate ? <Navigate to="/" /> : null}
-      <div className="flex flex-col justify-center mr-10 space-y-6">
-        <img src={Logo} alt="logo" className="mb-2 w-96" />
+      <div className="flex flex-col justify-center mr-10 space-y-6 w-96">
 
         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-xl" onSubmit={handleLogin}>
           <div className="mb-4">
@@ -91,7 +89,6 @@ export default function Login() {
       </div>
 
       <div className="flex flex-col items-center space-y-4">
-        <h2 className="text-2xl text-white mb-2">Novedades</h2>
         <div className="w-80 max-w-3xl mx-auto">
           <Slider {...settings}>
             <div>

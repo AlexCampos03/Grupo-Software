@@ -72,11 +72,13 @@ const PaginaRegistro = () => {
     // Renderiza el componente
     return (
         <div className="max-h-screen w-full mx-auto bg-blue-600 p-6">
-            <h1 className="text-3xl font-bold text-center text-white mb-6">Registro de usuario</h1>
+            <div>
+                <h1 className="text-3xl font-bold text-center text-white mb-6">Registro de usuario</h1>
+                <h2 className='text-xl text-center text-white mb-6'>Llena el siguiente formulario para  saber un poco más de ti,
+                y encuentra empleos y pasantias de tu mejor indole. </h2>
+            </div>
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Campos del formulario */}
-
-
 
                 <input
                     type="text"
@@ -116,7 +118,7 @@ const PaginaRegistro = () => {
                         className="bg-black/40 backdrop-blur-sm p-2 rounded border border-white/40 placeholder-white/70 text-white w-full"
                         required
                     >
-                        <option value="">Genero</option>
+                        <option  value="">Genero</option>
 
                         <option value="genero1">Femenino</option>
                         <option value="genero2">Masculino</option>
@@ -468,6 +470,7 @@ const PaginaRegistro = () => {
                     required
                 />
 
+                <div></div>
 
                 <input
                     type="text"
@@ -490,20 +493,11 @@ const PaginaRegistro = () => {
                     className="bg-black/40 backdrop-blur-sm p-2 rounded border border-white/40 placeholder-white/70 text-white "
                     required
                 />
-                <div>
-                </div>
-                {/* <input
-                    type="file"
-                    id="fotoPerfil"
-                    name="fotoPerfil"
-                    onChange={handleFileChange}
-                    accept="image/png, image/jpeg"
-                    className="bg-black/40 backdrop-blur-sm p-2 rounded border border-white/40 text-white w-full"
-                /> */}
+               
 
 
                 {/* Botón de envío */}
-                <div className="md:col-span-3 flex justify-center">
+                <div className="md:col-span-3 flex justify-center my-3">
                     <button className="bg-white text-blue-500 py-2 px-40 rounded-full">
                         Registrarse
                     </button>

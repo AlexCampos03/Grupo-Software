@@ -56,7 +56,10 @@ const PaginaRegistro2 = () => {
     // Renderiza el componente
     return (
         <div className="max-h-screen w-full mx-auto bg-blue-600 p-6">
-            <h1 className="text-3xl font-bold text-center text-white mb-6">Registro de Empresa</h1>
+            <div className='my-7'>
+                <h1 className="text-3xl font-bold text-center text-white mb-6">Registro de Empresa</h1>
+                <h2 className='text-white mb-6 text-xl text-center'>Llena el siguiente formulario para hacer el registro de la empresa</h2>
+            </div>
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
 
@@ -444,7 +447,6 @@ const PaginaRegistro2 = () => {
                 />
 
                 <div>
-                </div>
                 <div>
 
                     <input
@@ -456,8 +458,9 @@ const PaginaRegistro2 = () => {
                         className="bg-black/40 backdrop-blur-sm p-2 rounded border border-white/40 text-white w-full"
                     />
                 </div>
+                </div>
 
-                <div className="md:col-span-3 flex justify-center">
+                <div className="md:col-span-3 flex justify-center my-8">
                     <button type="submit" className="bg-white text-blue-500 py-2 px-40 rounded-full">
                         Enviar
                     </button>

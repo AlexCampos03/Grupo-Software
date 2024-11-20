@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import Logo from '../assets/Logo.png';
+import Logo from '../assets/Logo.svg';
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +15,7 @@ export default function Navbar() {
     };
 
     return (
-        <nav className="flex justify-between items-center p-6" style={{ backgroundColor: '#172554' }}>
+        <nav className="flex justify-between items-center p-6" style={{ backgroundColor: '#003DA5' }}>
             <div className="flex items-center">
                 <img src={Logo} alt="logo" className="mr-2 w-15 h-14" />
                 <span className="font-semibold text-xl tracking-tight text-white">PROFESSIONET</span>

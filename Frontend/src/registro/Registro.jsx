@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import UserIcon from '../assets/user.png'; 
-import BusinessIcon from '../assets/empresa.png'; 
+import UserIcon from '../assets/user.svg'; 
+import BusinessIcon from '../assets/empresa.svg'; 
 
 export default function Registro() {
   return (
@@ -20,3 +20,4 @@ export default function Registro() {
     </div>
   );
 }
+  
