@@ -11,8 +11,10 @@ import RegistroU from './registro/RegistroU';
 import RegistroE from './registro/RegistroE';
 import Registro from './registro/Registro';
 import PerfilU from './perfil/PerfilU';
+import PerfilE from './perfil/PerfilE';
 import UsuarioCV from './Post/UsuarioCV'
 import EmpresaOF from './Post/EmpresaOF'
+import Respuestas from './Post/RespuestasOF'
 import Seguridad from './pages/Seguridad'
 import Ayuda from './pages/Ayuda'
 import Politicas from './pages/Politicas'
@@ -32,11 +34,14 @@ const AppRouter = () => {
         <Route path="/RegistroE" element={<RegistroE />} />
         <Route path="/Registro" element={<Registro />} />
         <Route path="/PerfilU" element={<PerfilU />} />
+        <Route path="/PerfilE" element={<PerfilE />} />
         <Route path="/UsuarioCV" element={<UsuarioCV />} />
         <Route path="/EmpresaOF" element={<EmpresaOF />} />
         <Route path="/Seguridad" element={<Seguridad />} />
         <Route path="/Ayuda" element={<Ayuda />} />
         <Route path="/Politicas" element={<Politicas />} />
+        <Route path="/Respuestas" element={<Respuestas />} />
+
         
         {/* Asegúrate de tener una ruta para cada componente de página que tengas */}
       </Routes>
