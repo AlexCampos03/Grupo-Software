@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import AdminNavbar from '../components/AdminNavbar';
+
 import axios from 'axios';
 
 const UserCard = ({ name, email, role }) => (
@@ -16,8 +18,18 @@ const AdminUsersPage = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(' http://localhost:'); 
-        setUsers(response.data.users); 
+        // Obtener el token de autenticación desde localStorage
+        const token = localStorage.getItem('authToken');
+        
+        // Realizar la solicitud a la API con el token en los encabezados
+        const response = await axios.get('http://localhost:3500/api/users', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        
+        // Actualizar el estado con los usuarios obtenidos
+        setUsers(response.data.users);
       } catch (err) {
         console.error('Error al obtener los usuarios:', err);
         setError('No se pudieron cargar los usuarios. Inténtalo más tarde.');

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import AdminNavbar from '../components/AdminNavbar';
 import axios from 'axios';
 
 const ApplicationCard = ({ applicantName, offerTitle, status }) => (
@@ -16,8 +17,18 @@ const AdminApplicationsPage = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const response = await axios.get('http://localhost:'); 
-        setApplications(response.data.applications); 
+        // Obtener el token de autenticación desde localStorage
+        const token = localStorage.getItem('authToken');
+
+        // Realizar la solicitud a la API con el token en los encabezados
+        const response = await axios.get('http://localhost:3500/api/ofertas', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        // Actualizar el estado con las postulaciones obtenidas
+        setApplications(response.data.applications);
       } catch (err) {
         console.error('Error al obtener las postulaciones:', err);
         setError('No se pudieron cargar las postulaciones. Inténtalo más tarde.');

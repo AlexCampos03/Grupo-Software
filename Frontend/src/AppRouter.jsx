@@ -21,6 +21,7 @@ import Politicas from './pages/Politicas'
 import AdminUsersPage from './Administration/userList';
 import AdminApplicationsPage from './Administration/adminsupervisar';
 import AdminOffersPage from './Administration/adminofertas';
+import AdminNavbar from './components/AdminNavbar';
 const AppRouter = () => {
   return (
     <Router>
@@ -41,7 +42,10 @@ const AppRouter = () => {
         <Route path="/Ayuda" element={<Ayuda />} />
         <Route path="/Politicas" element={<Politicas />} />
         <Route path="/Respuestas" element={<Respuestas />} />
-
+        <Route path="/admin" element={<AdminNavbar />}/>
+        <Route path="/admin/users" element={<AdminUsersPage />} />
+        <Route path="/admin/applications" element={<AdminApplicationsPage />} />
+        <Route path="/admin/offers" element={<AdminOffersPage />} />
         
         {/* Asegúrate de tener una ruta para cada componente de página que tengas */}
       </Routes>
