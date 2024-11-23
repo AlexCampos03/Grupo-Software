@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import AdminNavbar from '../components/AdminNavbar';
 import axios from 'axios';
 
 const OfferCard = ({ title, datePosted, recruiterName }) => (
@@ -16,8 +17,18 @@ const AdminOffersPage = () => {
   useEffect(() => {
     const fetchOffers = async () => {
       try {
-        const response = await axios.get('http://localhost:'); 
-        setOffers(response.data.offers); 
+        // Obtener el token de autenticación desde localStorage
+        const token = localStorage.getItem('authToken');
+        
+        // Realizar la solicitud a la API con el token incluido en los encabezados
+        const response = await axios.get('http://localhost:3500/api/ofertas', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        
+        // Actualizar el estado con las ofertas recibidas
+        setOffers(response.data.offers);
       } catch (err) {
         console.error('Error al obtener las ofertas:', err);
         setError('No se pudieron cargar las ofertas. Inténtalo más tarde.');
