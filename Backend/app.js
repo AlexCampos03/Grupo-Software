@@ -3,6 +3,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');  
 const userRoutes = require('./routes/user');  
 const jobApplicationRoutes = require('./routes/jobApplication');  
+const applyRoutes = require('./routes/apply'); 
 const cvRoutes = require('./routes/cv');  
 const feedbackRoutes = require('./routes/feedback');  
 
@@ -12,7 +13,8 @@ connectDB();
 app.use(express.json());  
 app.use('/api/auth', authRoutes);  
 app.use('/api/user', userRoutes);  
-app.use('/api/job-application', jobApplicationRoutes); 
+app.use('/api/job-application', jobApplicationRoutes);  
+app.use('/api/apply', applyRoutes); 
 app.use('/api/cv', cvRoutes);  
 app.use('/api/feedback', feedbackRoutes);  
 
