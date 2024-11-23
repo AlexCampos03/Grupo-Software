@@ -37,7 +37,7 @@ const NewPage = () => {
     return (
         <div className="new-page-container overflow-x-hidden">
             <main>
-                {/* Slider Section */}
+                
                 <section className="relative bg-blue-500 text-white">
                     <Slider {...settings} className="overflow-hidden">
                         <div>
@@ -52,7 +52,7 @@ const NewPage = () => {
                     </Slider>
                 </section>
 
-                {/* Features Section */}
+                
                 <section className="container mx-auto p-8">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                         <div className="flex flex-col items-center">
@@ -71,7 +71,7 @@ const NewPage = () => {
                     <div className="w-full my-4 border-t-4 border-blue-600"></div>
                 </section>
 
-                {/* Cards Section */}
+                
                 <section className="grid grid-cols-1 md:grid-cols-5 gap-4 text-center p-4">
                     {[
                         { image: Trabajos, title: 'Trabajos', bgColor: 'bg-blue-600' },
@@ -91,7 +91,7 @@ const NewPage = () => {
                     ))}
                 </section>
 
-                {/* Testimonials Section */}
+                
                 <section className="bg-blue-500 py-10">
                     <h2 className="text-white text-center text-2xl font-bold mb-8">TESTIMONIOS</h2>
                     <div className="container mx-auto flex flex-wrap justify-center items-center gap-6">
@@ -104,13 +104,13 @@ const NewPage = () => {
                         <div className="bg-white rounded-lg shadow-lg w-full md:w-1/3">
                             <img src={Testimonio3} alt="Testimonio 3" className="w-full object-cover h-48" />
                             <div className="p-4">
-                                <a href="/testimonios/3" className="text-blue-600 hover:text-blue-800 transition duration-300">Conoce más &gt;</a>
+                                <a href="/testimonios/2" className="text-blue-600 hover:text-blue-800 transition duration-300">Conoce más &gt;</a>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                {/* Partners Section */}
+                
                 <section className="bg-gray-100 py-4">
                     <div className="container mx-auto text-center">
                         <h2 className="text-lg font-bold uppercase text-blue-600 mb-4">Partners</h2>

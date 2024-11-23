@@ -21,14 +21,12 @@ export default function AdminNavbar() {
                 <span className="font-semibold text-xl tracking-tight text-white">ADMIN PANEL</span>
             </div>
 
-            {/* Botón del Menú de Hamburguesa */}
             <button onClick={toggleMenu} className="text-white md:hidden z-20">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
             </button>
 
-            {/* Enlaces de Navegación */}
             <div className={`md:flex md:items-center md:justify-end ${
                 isOpen ? 'fixed' : 'hidden'
               } inset-x-0 top-0 transform transition-transform duration-300 ease-in-out z-10 md:relative md:top-auto md:left-auto md:h-auto md:visible md:opacity-100 md:translate-x-0`} style={{ backgroundColor: isOpen ? '#172554' : 'transparent' }}>
