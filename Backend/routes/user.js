@@ -1,11 +1,18 @@
 const express = require('express');  
 const { getUserById, updateUser, deleteUser } = require('../controllers/userController');  
 const { authenticate } = require('../middleware/authMiddleware');  
+const { authorize } = require('../middleware/roleMiddleware');  
+const { roles } = require('../config/roles');  
 
 const router = express.Router();  
 
-router.get('/:userId', authenticate, getUserById);  
-router.patch('/:userId', authenticate, updateUser);  
-router.delete('/:userId', authenticate, deleteUser);  
+// Ruta para que un admin vea un usuario específico  
+router.get('/:userId', authenticate, authorize([roles.ADMIN]), getUserById);  
+
+// Ruta para que un admin actualice un usuario  
+router.patch('/:userId', authenticate, authorize([roles.ADMIN]), updateUser);  
+
+// Ruta para que un admin elimine un usuario  
+router.delete('/:userId', authenticate, authorize([roles.ADMIN]), deleteUser);  
 
 module.exports = router;
