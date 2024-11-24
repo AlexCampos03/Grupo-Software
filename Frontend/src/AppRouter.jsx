@@ -13,7 +13,7 @@ import Registro from './registro/Registro';
 import PerfilU from './perfil/PerfilU';
 import PerfilE from './perfil/PerfilE';
 import EmpresaOF from './Post/EmpresaOF';
-import Respuestas from './Post/RespuestasOF';
+import Respuestas from './Post/RespuestaOF';
 
 import Ayuda from './pages/Ayuda'
 import Politicas from './pages/Politicas'
