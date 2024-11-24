@@ -11,7 +11,7 @@ const Navbar = () =>  {
   // Verificar autenticación al cargar la página
   useEffect(() => {
     const token = localStorage.getItem('token');
-    setIsAuthenticated(!!token); // Si el token existe, está autenticado
+    // Si el token existe, está autenticado
   }, [location.pathname]);
 
   const toggleMenu = () => {

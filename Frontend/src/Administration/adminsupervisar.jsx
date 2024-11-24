@@ -21,7 +21,7 @@ const AdminApplicationsPage = () => {
         const token = localStorage.getItem('authToken');
 
         // Realizar la solicitud a la API con el token en los encabezados
-        const response = await axios.get('http://localhost:3500/api/ofertas', {
+        const response = await axios.get('GET http://localhost:3000/api/applications/:ofertaId', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,7 +39,7 @@ const AdminApplicationsPage = () => {
   }, []);
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-6 min-h-screen">
       <h1 className="text-3xl font-bold text-center my-6">Postulaciones de Usuarios</h1>
       {error ? (
         <div className="text-red-500 text-center">{error}</div>
