@@ -67,7 +67,8 @@ exports.login = async (req, res) => {
 
     try {  
         // Buscar el usuario por correo electrónico  
-        const user = await User.findOne({ email });  
+        const user = await User.findOne({ email });
+        const role = user.role;  
         if (!user) {  
             return res.status(400).json({ message: 'Credenciales inválidas' });  
         }  
@@ -81,7 +82,7 @@ exports.login = async (req, res) => {
         // Generar un token JWT  
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });  
 
-        res.status(200).json({ message: 'Inicio de sesión exitoso', token });  
+        res.status(200).json({ message: 'Inicio de sesión exitoso', token, role});  
     } catch (error) {  
         res.status(500).json({ message: 'Error al iniciar sesión', error });  
     }  

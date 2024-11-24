@@ -26,7 +26,7 @@ export default function PerfilUsuario() {
   useEffect(() => {
     const obtenerDatosUsuario = async () => {
       try {
-        const respuesta = await axios.get('http://localhost:3500/api/auth/whoami', {
+        const respuesta = await axios.get('http://localhost:3000/api/auth/whoami', {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
@@ -39,7 +39,7 @@ export default function PerfilUsuario() {
         } else {
 
           setIsUser(false);
-          const respuesta = await axios.get('http://localhost:3500/api/vacant/own', {
+          const respuesta = await axios.get('http://localhost:3000/api/vacant/own', {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('token')}`
             }

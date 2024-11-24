@@ -14,3 +14,12 @@ exports.deleteUser = async (req, res) => {
     await User.findByIdAndDelete(req.params.userId);  
     res.json({ message: 'User deleted successfully' });  
 };
+
+exports.getUsers = async (req, res) => {
+    try {
+        const users = await User.find({role: { $ne: 'admin' }}).select('-password -roles -salt -hashedPassword -role -tokens');
+        res.json(users);
+    } catch (errpr) {
+        res.status(500).json({ message: 'Error getting users', error });
+    }
+}

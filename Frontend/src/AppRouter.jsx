@@ -12,6 +12,9 @@ import RegistroE from './registro/RegistroE';
 import Registro from './registro/Registro';
 import PerfilU from './perfil/PerfilU';
 import PerfilE from './perfil/PerfilE';
+import EmpresaOF from './Post/EmpresaOF';
+import Respuestas from './Post/RespuestaOF';
+
 import Ayuda from './pages/Ayuda'
 import Politicas from './pages/Politicas'
 import AdminUsersPage from './Administration/userList';
@@ -22,6 +25,12 @@ import { AuthProvider } from './context/AuthProvide';
 import ProtectedRoutes from './Routes/ProtectedRoutes';
 import UnauthorizedPage from './pages/Unauthorized';
 import Testimony from './components/Testimony';
+
+import Seguridad from './pages/Seguridad';
+import CV from './CV/CV';
+
+
+
 const AppRouter = () => {
   return (
     <AuthProvider>
@@ -37,9 +46,16 @@ const AppRouter = () => {
           <Route path="/Registro" element={<Registro />} />
           <Route path="/PerfilU" element={<PerfilU />} />
           <Route path="/PerfilE" element={<PerfilE />} />
+          <Route path="/EmpresaOF" element={<EmpresaOF />} />
+          <Route path="/Respuestas" element={<Respuestas />} />
           <Route path="/testimonios/1" element={<Testimony number={1} />} />
           <Route path="/testimonios/2" element={<Testimony number={2} />} />
           <Route path="/Ayuda" element={<Ayuda />} />
+          <Route path="/Seguridad" element={<Seguridad />} />
+
+          <Route path="/CV" element={<CV />} />
+          
+
           <Route path="/unauthorized" element={<UnauthorizedPage/>} />
 
           <Route path="/admin" element={<AdminNavbar />}/>
