@@ -4,7 +4,7 @@ import Logo from '../assets/Logo.svg';
 import { useAuth } from '../context/AuthProvide';
 
 const Navbar = () =>  {
-    const { userRole, isAuthenticated , logout} = useAuth();
+    const { userRole, isAuthenticated} = useAuth();
     const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
 

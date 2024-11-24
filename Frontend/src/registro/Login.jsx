@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link, Navigate, redirect } from 'react-router-dom';
+import { Link, Navigate, redirect, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import NewsImage from '../assets/Empleado.png';
 import { useState } from 'react';
 import axios from 'axios';
+import { useAuth } from '../context/AuthProvide';
 
 
 export default function Login() {
@@ -15,6 +16,21 @@ export default function Login() {
     email: '',
     password: '',
   });
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  const redirectByRole = (role) => {
+    switch (role) {
+      case 'admin':
+        navigate('/admin/users');
+        break;
+      case 'company':
+        navigate('/');
+        break;
+      default:
+        navigate('/');
+    }
+  };
 
   const settings = {
     dots: true,
@@ -35,15 +51,20 @@ export default function Login() {
     let response;
 
     try {
-      response = await axios.post('http://localhost:3000/api/auth/login', JSON.stringify(datosFormulario), {
+      response = await axios.post('http://localhost:5000/api/auth/login', JSON.stringify(datosFormulario), {
         headers: {
           'Content-Type': 'application/json'
         }
       });
 
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('role', response.data.role);
+      login(response.data.role);
       alert("Logeado correctamente")
       setShouldNavigate(true);
+
+      redirectByRole(response.data.role);
+      
 
     } catch (error) {
       console.log(error);
