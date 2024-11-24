@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link, Navigate, redirect } from 'react-router-dom';
+import { Link, Navigate, redirect, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import NewsImage from '../assets/Empleado.png';
 import { useState } from 'react';
 import axios from 'axios';
+import { useAuth } from '../context/AuthProvide';
 
 
 export default function Login() {
@@ -15,6 +16,21 @@ export default function Login() {
     email: '',
     password: '',
   });
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  const redirectByRole = (role) => {
+    switch (role) {
+      case 'admin':
+        navigate('/admin/users');
+        break;
+      case 'company':
+        navigate('/');
+        break;
+      default:
+        navigate('/');
+    }
+  };
 
   const settings = {
     dots: true,
@@ -42,15 +58,20 @@ export default function Login() {
       });
 
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('role', response.data.role);
+      login(response.data.role);
       alert("Logeado correctamente")
       setShouldNavigate(true);
+
+      redirectByRole(response.data.role);
+      
 
     } catch (error) {
       console.log(error);
       alert(error.response.data.error || error.response.data.errors[0].message)
     }
 
-
+ 
   };
 
   return (

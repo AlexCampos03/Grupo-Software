@@ -3,11 +3,10 @@ import { Link, useLocation } from 'react-router-dom';
 import Logo from '../assets/Logo.svg';
 import { useAuth } from '../context/AuthProvide';
 
-const Navbar = () => {
+const Navbar = () =>  {
     const { userRole, isAuthenticated} = useAuth();
-  
-  const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
+    const [isOpen, setIsOpen] = useState(false);
+    const location = useLocation();
 
   // Verificar autenticación al cargar la página
   useEffect(() => {

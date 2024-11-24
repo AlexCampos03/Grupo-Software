@@ -13,9 +13,15 @@ connectDB();
 
 // Configurar CORS  
 app.use(cors({  
+<<<<<<< HEAD
     origin: '*', // Cambia esto por el dominio de tu frontend  
     methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Métodos permitidos  
     allowedHeaders: ['Content-Type', 'Authorization'] // Encabezados permitidos  
+=======
+    origin: '*', 
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'] 
+>>>>>>> 74af754a7ed1ec721fe20aa71d4ae961a1b43dca
 }));  
 
 app.use(express.json());  
