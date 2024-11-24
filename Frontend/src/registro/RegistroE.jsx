@@ -1,182 +1,182 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState } from 'react';
 
-export default function PerfilEmpresa() {
-  const [perfil, setPerfil] = useState(null);
-  const [jobs, setJobs] = useState([]);
-  const [filter, setFilter] = useState('todos'); // Estado para controlar el filtro
-  const navigate = useNavigate();
+const PaginaRegistro = () => {
+    // Estado inicial adaptado para los nuevos datos, incluyendo ruc
+    const [datosFormulario, setDatosFormulario] = useState({
+        companyName: '',
+        email: '',
+        telephone: '',
+        password: '',
+        department: '',
+        municipality: '',
+        description: '',
+        ruc: '', // Campo ruc agregado
+    });
 
-  // Obtener datos de la empresa y ofertas
-  useEffect(() => {
-    const obtenerDatosEmpresa = async () => {
-      try {
-        // Obtener datos reales de la API
-        const perfilResponse = await axios.get('/api/empresa/perfil');
-        setPerfil(perfilResponse.data);
+    // Estado para manejar municipios dinámicos
+    const [municipios, setMunicipios] = useState([]);
 
-        const ofertasResponse = await axios.get('/api/empresa/ofertas');
-        setJobs(ofertasResponse.data);
-      } catch (error) {
-        console.error('Error al obtener los datos:', error);
-        alert('Hubo un problema al cargar los datos. Inténtalo más tarde.');
-      }
-
-      // Mockdata comentada
-      /*
-      const perfilFicticio = {
-        companyName: 'TechCorp',
-        department: 'Desarrollo de Software',
-        email: 'contacto@techcorp.com',
-      };
-      setPerfil(perfilFicticio);
-
-      const ofertasFicticias = [
-        {
-          _id: '1',
-          name: 'Desarrollador Frontend',
-          imageUrl: 'https://via.placeholder.com/150',
-          companyName: 'TechCorp',
-          esPasantia: false,
-        },
-        {
-          _id: '2',
-          name: 'Desarrollador Backend',
-          imageUrl: 'https://via.placeholder.com/150',
-          companyName: 'TechCorp',
-          esPasantia: true,
-        },
-        {
-          _id: '3',
-          name: 'Diseñador UI/UX',
-          imageUrl: 'https://via.placeholder.com/150',
-          companyName: 'TechCorp',
-          esPasantia: false,
-        },
-      ];
-      setJobs(ofertasFicticias);
-      */
+    // Relación de departamentos con municipios
+    const departamentosYMunicipios = {
+        "Santa Ana": ["Santa Ana", "Candelaria de la Frontera", "Chalchuapa", "Coatepeque", "El Congo", "Texistepeque"],
+        "Ahuachapán": ["Ahuachapán", "Apaneca", "Atiquizaya", "Concepción de Ataco", "El Refugio", "San Lorenzo"],
+        "Sonsonate": ["Sonsonate", "Armenia", "Juayúa", "Nahuizalco", "Nahulingo", "Salcoatitán"],
+        "Chalatenango": ["Chalatenango", "Arcatao", "Citalá", "Nueva Concepción", "San Ignacio", "Tejutla"],
+        "La Libertad": ["La Libertad", "Santa Tecla", "Antiguo Cuscatlán", "Colón", "San José Villanueva", "Zaragoza"],
+        "San Salvador": ["San Salvador", "Apopa", "Ayutuxtepeque", "Cuscatancingo", "Ilopango", "Soyapango"],
+        "Cuscatlán": ["Cuscatlán", "Cojutepeque", "Suchitoto", "San José Guayabal", "San Pedro Perulapán", "Tenancingo"],
+        "Cabañas": ["Cabañas", "Ilobasco", "Sensuntepeque", "Victoria", "Guacotecti", "San Isidro"],
+        "La Paz": ["La Paz", "Zacatecoluca", "Olocuilta", "San Luis Talpa", "San Pedro Masahuat", "Tapalhuaca"],
+        "San Vicente": ["San Vicente", "Apastepeque", "Tecoluca", "San Sebastián", "Santa Clara", "Santo Domingo"],
+        "Usulután": ["Usulután", "Alegría", "Berlín", "Santa Elena", "San Francisco Javier", "Jucuapa"],
+        "San Miguel": ["San Miguel", "Ciudad Barrios", "Chinameca", "Moncagua", "San Rafael Oriente", "Uluazapa"],
+        "Morazán": ["Morazán", "San Francisco Gotera", "Perquín", "Joateca", "Meanguera", "Sociedad"],
+        "La Unión": ["La Unión", "Conchagua", "Santa Rosa de Lima", "Pasaquina", "San Alejo", "El Sauce"],
     };
 
-    obtenerDatosEmpresa();
-  }, []);
+    // Manejar el cambio en los campos del formulario
+    const handleChange = (e) => {
+        const { name, value } = e.target;
 
-  const handleEditJob = (job) => {
-    navigate('/EmpresaOF', { state: { job } }); // Pasar la oferta como estado
-  };
+        if (name === 'department') {
+            // Actualizar municipios y reiniciar el campo de municipio
+            setMunicipios(departamentosYMunicipios[value] || []);
+            setDatosFormulario((prevDatos) => ({
+                ...prevDatos,
+                [name]: value, // Actualiza el departamento seleccionado
+                municipality: '', // Reinicia el municipio al cambiar de departamento
+            }));
+        } else {
+            // Actualizar cualquier otro campo
+            setDatosFormulario((prevDatos) => ({
+                ...prevDatos,
+                [name]: value,
+            }));
+        }
+    };
 
-  const handleDeleteJob = async (id) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar esta oferta?')) {
-      try {
-        await axios.delete(`/api/empresa/ofertas/${id}`);
-        setJobs(jobs.filter((job) => job._id !== id));
-      } catch (error) {
-        console.error('Error al eliminar la oferta:', error);
-        alert('No se pudo eliminar la oferta. Inténtalo más tarde.');
-      }
-    }
-  };
+    // Manejar el envío del formulario
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-  const JobCard = ({ _id, name, imageUrl, companyName, esPasantia }) => {
+        try {
+            // Envía los datos del formulario al backend
+            const response = await axios.post(
+                'http://localhost:3000/api/auth/register-company',
+                JSON.stringify(datosFormulario),
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+            alert('Registro exitoso');
+            console.log(response.data); // Muestra la respuesta del backend en la consola
+        } catch (error) {
+            console.error(error.response?.data || error.message);
+            alert('Error al registrar la empresa');
+        }
+    };
+
+    // Renderizar el formulario
     return (
-      <div className="bg-white rounded-lg shadow-lg p-6 relative">
-        <img src={imageUrl} alt={name} className="w-full h-32 object-cover" />
-        <h3 className="text-lg font-bold mt-4">{name}</h3>
-        <p className="text-gray-800">{companyName}</p>
-        <p className="text-gray-500">{esPasantia ? 'Pasantía' : 'Trabajo'}</p>
-        <div className="flex justify-between mt-4">
-          <button
-            onClick={() =>
-              handleEditJob({ _id, name, imageUrl, companyName, esPasantia })
-            }
-            className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-full"
-          >
-            Editar
-          </button>
-          <button
-            onClick={() => handleDeleteJob(_id)}
-            className="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-full"
-          >
-            Eliminar
-          </button>
+        <div className="max-h-screen w-full mx-auto bg-blue-600 p-6">
+            <div>
+                <h1 className="text-3xl font-bold text-center text-white mb-6">Registro de Empresa</h1>
+                <h2 className="text-xl text-center text-white mb-6">
+                    Llena el formulario para registrar tu empresa y conectar con oportunidades.
+                </h2>
+            </div>
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <input
+                    type="text"
+                    name="companyName"
+                    value={datosFormulario.companyName}
+                    onChange={handleChange}
+                    placeholder="Nombre de la empresa"
+                    className="bg-black/40 backdrop-blur-sm p-2 rounded border border-white/40 placeholder-white/70 text-white"
+                    required
+                />
+                <input
+                    type="email"
+                    name="email"
+                    value={datosFormulario.email}
+                    onChange={handleChange}
+                    placeholder="Correo Electrónico"
+                    className="bg-black/40 backdrop-blur-sm p-2 rounded border border-white/40 placeholder-white/70 text-white"
+                    required
+                />
+                <input
+                    type="tel"
+                    name="telephone"
+                    value={datosFormulario.telephone}
+                    onChange={handleChange}
+                    placeholder="Teléfono"
+                    className="bg-black/40 backdrop-blur-sm p-2 rounded border border-white/40 placeholder-white/70 text-white"
+                    required
+                />
+                <input
+                    type="password"
+                    name="password"
+                    value={datosFormulario.password}
+                    onChange={handleChange}
+                    placeholder="Contraseña"
+                    className="bg-black/40 backdrop-blur-sm p-2 rounded border border-white/40 placeholder-white/70 text-white"
+                    required
+                />
+                <input
+                    type="text"
+                    name="ruc"
+                    value={datosFormulario.ruc}
+                    onChange={handleChange}
+                    placeholder="RUC"
+                    className="bg-black/40 backdrop-blur-sm p-2 rounded border border-white/40 placeholder-white/70 text-white"
+                    required
+                />
+                <select
+                    name="department"
+                    value={datosFormulario.department}
+                    onChange={handleChange}
+                    className="bg-black/40 p-2 rounded border border-white/40 text-white"
+                    required
+                >
+                    <option value="">Seleccione un Departamento</option>
+                    {Object.keys(departamentosYMunicipios).map((key) => (
+                        <option key={key} value={key}>
+                            {key}
+                        </option>
+                    ))}
+                </select>
+                <select
+                    name="municipality"
+                    value={datosFormulario.municipality}
+                    onChange={handleChange}
+                    className="bg-black/40 p-2 rounded border border-white/40 text-white"
+                    required
+                >
+                    <option value="">Seleccione un Municipio</option>
+                    {municipios.map((municipio, index) => (
+                        <option key={index} value={municipio}>
+                            {municipio}
+                        </option>
+                    ))}
+                </select>
+                <textarea
+                    name="description"
+                    value={datosFormulario.description}
+                    onChange={handleChange}
+                    placeholder="Descripción de la empresa"
+                    className="bg-black/40 backdrop-blur-sm p-2 rounded border border-white/40 placeholder-white/70 text-white col-span-1 md:col-span-3"
+                ></textarea>
+                <div className="md:col-span-3 flex justify-center my-3">
+                    <button className="bg-white text-blue-500 py-2 px-40 rounded-full">
+                        Registrarse
+                    </button>
+                </div>
+            </form>
         </div>
-      </div>
     );
-  };
+};
 
-  // Filtrar ofertas según el tipo (pasantía o no)
-  const filteredJobs = jobs.filter((job) => {
-    if (filter === 'todos') return true; // Mostrar todas las ofertas
-    return job.esPasantia === (filter === 'pasantia');
-  });
-
-  if (!perfil) {
-    return <div>Cargando perfil...</div>;
-  }
-
-  return (
-    <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg my-6">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {/* Información de la empresa */}
-        <div className="col-span-1 bg-blue-600 p-4 rounded-lg text-white">
-          <h3 className="text-xl font-bold mb-4">Información de la Empresa</h3>
-          <p>
-            <strong>Nombre:</strong> {perfil.companyName}
-          </p>
-          <p>
-            <strong>Departamento:</strong> {perfil.department}
-          </p>
-          <p>
-            <strong>Email:</strong> {perfil.email}
-          </p>
-          <br />
-          <Link
-            to="/EmpresaOF"
-            className="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full transition duration-300"
-          >
-            Agregar Vacante
-          </Link>
-          <br />
-          <button
-            onClick={() => navigate('/Respuestas')}
-            className="mt-4 bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full transition duration-300"
-          >
-            Ver Respuestas de Candidatos
-          </button>
-        </div>
-
-        {/* Filtro de ofertas */}
-        <div className="col-span-2">
-          <h3 className="text-xl font-bold mb-4">Vacantes Publicadas</h3>
-          <div className="mb-4">
-            <label
-              htmlFor="filtro"
-              className="mr-2 text-lg font-semibold"
-            >
-              Filtrar por:
-            </label>
-            <select
-              id="filtro"
-              className="border border-gray-300 p-2 rounded-lg"
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-            >
-              <option value="todos">Todas las ofertas</option>
-              <option value="pasantia">Solo Pasantías</option>
-              <option value="trabajo">Solo Trabajos</option>
-            </select>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {filteredJobs.length > 0 ? (
-              filteredJobs.map((job) => <JobCard key={job._id} {...job} />)
-            ) : (
-              <p>No hay vacantes publicadas para el filtro seleccionado.</p>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+export default PaginaRegistro;

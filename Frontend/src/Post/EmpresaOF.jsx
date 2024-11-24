@@ -12,6 +12,7 @@ export default function EmpresaOF() {
     name: '',
     imageUrl: '',
     companyName: '',
+    description: '',
     esPasantia: false,
   });
 
@@ -104,6 +105,22 @@ export default function EmpresaOF() {
             placeholder="Ej. TechCorp"
             required
             className="w-full border border-gray-300 p-2 rounded-lg"
+          />
+        </div>
+
+        {/* Descripción */}
+        <div>
+          <label htmlFor="description" className="block text-lg font-semibold">
+            Descripción de la Vacante
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            placeholder="Ej. Desarrollador Frontend con experiencia en React y Node.js..."
+            required
+            className="w-full border border-gray-300 p-2 rounded-lg h-32"
           />
         </div>
 
