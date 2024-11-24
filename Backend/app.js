@@ -13,9 +13,9 @@ connectDB();
 
 // Configurar CORS  
 app.use(cors({  
-    origin: 'http://localhost:3000', // Cambia esto por el dominio de tu frontend  
-    methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Métodos permitidos  
-    allowedHeaders: ['Content-Type', 'Authorization'] // Encabezados permitidos  
+    origin: '*', 
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'] 
 }));  
 
 app.use(express.json());  
