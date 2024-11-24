@@ -36,6 +36,7 @@ export default function PerfilEmpresa() {
         {
           _id: '1',
           name: 'Desarrollador Frontend',
+          description: 'Trabaja con tecnologías modernas para crear interfaces de usuario atractivas.',
           imageUrl: 'https://via.placeholder.com/150',
           companyName: 'TechCorp',
           esPasantia: false,
@@ -43,6 +44,7 @@ export default function PerfilEmpresa() {
         {
           _id: '2',
           name: 'Desarrollador Backend',
+          description: 'Ayuda a construir y mantener los sistemas y servidores que respaldan nuestros servicios.',
           imageUrl: 'https://via.placeholder.com/150',
           companyName: 'TechCorp',
           esPasantia: true,
@@ -50,6 +52,7 @@ export default function PerfilEmpresa() {
         {
           _id: '3',
           name: 'Diseñador UI/UX',
+          description: 'Crea experiencias de usuario innovadoras con un enfoque centrado en el cliente.',
           imageUrl: 'https://via.placeholder.com/150',
           companyName: 'TechCorp',
           esPasantia: false,
@@ -78,17 +81,18 @@ export default function PerfilEmpresa() {
     }
   };
 
-  const JobCard = ({ _id, name, imageUrl, companyName, esPasantia }) => {
+  const JobCard = ({ _id, name, description, imageUrl, companyName, esPasantia }) => {
     return (
       <div className="bg-white rounded-lg shadow-lg p-6 relative">
         <img src={imageUrl} alt={name} className="w-full h-32 object-cover" />
         <h3 className="text-lg font-bold mt-4">{name}</h3>
         <p className="text-gray-800">{companyName}</p>
-        <p className="text-gray-500">{esPasantia ? 'Pasantía' : 'Trabajo'}</p>
+        <p className="text-gray-500 mb-4">{esPasantia ? 'Pasantía' : 'Trabajo'}</p>
+        <p className="text-gray-700">{description}</p>
         <div className="flex justify-between mt-4">
           <button
             onClick={() =>
-              handleEditJob({ _id, name, imageUrl, companyName, esPasantia })
+              handleEditJob({ _id, name, description, imageUrl, companyName, esPasantia })
             }
             className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-full"
           >
