@@ -14,6 +14,11 @@ import PerfilU from './perfil/PerfilU';
 import PerfilE from './perfil/PerfilE';
 import Ayuda from './pages/Ayuda';
 import Politicas from './pages/Politicas';
+import EmpresaOF from './Post/EmpresaOF';
+import Respuestas from './Post/RespuestaOF';
+
+import Ayuda from './pages/Ayuda'
+import Politicas from './pages/Politicas'
 import AdminUsersPage from './Administration/userList';
 import AdminApplicationsPage from './Administration/adminsupervisar';
 import AdminOffersPage from './Administration/adminofertas';
@@ -47,6 +52,8 @@ const AppRouter = () => {
           <Route path="/Registro" element={<Registro />} />
           <Route path="/PerfilU" element={<PerfilU />} />
           <Route path="/PerfilE" element={<PerfilE />} />
+          <Route path="/EmpresaOF" element={<EmpresaOF />} />
+          <Route path="/Respuestas" element={<Respuestas />} />
           <Route path="/testimonios/1" element={<Testimony number={1} />} />
           <Route path="/testimonios/2" element={<Testimony number={2} />} />
           <Route path="/Ayuda" element={<Ayuda />} />

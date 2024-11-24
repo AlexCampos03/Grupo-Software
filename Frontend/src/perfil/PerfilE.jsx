@@ -20,40 +20,46 @@ export default function PerfilEmpresa() {
         setJobs(ofertasResponse.data);
       } catch (error) {
         console.error('Error al obtener los datos:', error);
+        alert('Hubo un problema al cargar los datos. Inténtalo más tarde.');
       }
 
-      // Data ficticia comentada
-      // const perfilFicticio = {
-      //   companyName: 'TechCorp',
-      //   department: 'Desarrollo de Software',
-      //   email: 'contacto@techcorp.com',
-      // };
-      // setPerfil(perfilFicticio);
+      // Mockdata comentada
+      /*
+      const perfilFicticio = {
+        companyName: 'TechCorp',
+        department: 'Desarrollo de Software',
+        email: 'contacto@techcorp.com',
+      };
+      setPerfil(perfilFicticio);
 
-      // const ofertasFicticias = [
-      //   {
-      //     _id: '1',
-      //     name: 'Desarrollador Frontend',
-      //     imageUrl: 'https://via.placeholder.com/150',
-      //     companyName: 'TechCorp',
-      //     esPasantia: false,
-      //   },
-      //   {
-      //     _id: '2',
-      //     name: 'Desarrollador Backend',
-      //     imageUrl: 'https://via.placeholder.com/150',
-      //     companyName: 'TechCorp',
-      //     esPasantia: true,
-      //   },
-      //   {
-      //     _id: '3',
-      //     name: 'Diseñador UI/UX',
-      //     imageUrl: 'https://via.placeholder.com/150',
-      //     companyName: 'TechCorp',
-      //     esPasantia: false,
-      //   },
-      // ];
-      // setJobs(ofertasFicticias);
+      const ofertasFicticias = [
+        {
+          _id: '1',
+          name: 'Desarrollador Frontend',
+          description: 'Trabaja con tecnologías modernas para crear interfaces de usuario atractivas.',
+          imageUrl: 'https://via.placeholder.com/150',
+          companyName: 'TechCorp',
+          esPasantia: false,
+        },
+        {
+          _id: '2',
+          name: 'Desarrollador Backend',
+          description: 'Ayuda a construir y mantener los sistemas y servidores que respaldan nuestros servicios.',
+          imageUrl: 'https://via.placeholder.com/150',
+          companyName: 'TechCorp',
+          esPasantia: true,
+        },
+        {
+          _id: '3',
+          name: 'Diseñador UI/UX',
+          description: 'Crea experiencias de usuario innovadoras con un enfoque centrado en el cliente.',
+          imageUrl: 'https://via.placeholder.com/150',
+          companyName: 'TechCorp',
+          esPasantia: false,
+        },
+      ];
+      setJobs(ofertasFicticias);
+      */
     };
 
     obtenerDatosEmpresa();
@@ -70,20 +76,24 @@ export default function PerfilEmpresa() {
         setJobs(jobs.filter((job) => job._id !== id));
       } catch (error) {
         console.error('Error al eliminar la oferta:', error);
+        alert('No se pudo eliminar la oferta. Inténtalo más tarde.');
       }
     }
   };
 
-  const JobCard = ({ _id, name, imageUrl, companyName, esPasantia }) => {
+  const JobCard = ({ _id, name, description, imageUrl, companyName, esPasantia }) => {
     return (
       <div className="bg-white rounded-lg shadow-lg p-6 relative">
         <img src={imageUrl} alt={name} className="w-full h-32 object-cover" />
         <h3 className="text-lg font-bold mt-4">{name}</h3>
         <p className="text-gray-800">{companyName}</p>
-        <p className="text-gray-500">{esPasantia ? 'Pasantía' : 'Trabajo'}</p>
+        <p className="text-gray-500 mb-4">{esPasantia ? 'Pasantía' : 'Trabajo'}</p>
+        <p className="text-gray-700">{description}</p>
         <div className="flex justify-between mt-4">
           <button
-            onClick={() => handleEditJob({ _id, name, imageUrl, companyName, esPasantia })}
+            onClick={() =>
+              handleEditJob({ _id, name, description, imageUrl, companyName, esPasantia })
+            }
             className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-full"
           >
             Editar
@@ -144,7 +154,12 @@ export default function PerfilEmpresa() {
         <div className="col-span-2">
           <h3 className="text-xl font-bold mb-4">Vacantes Publicadas</h3>
           <div className="mb-4">
-            <label htmlFor="filtro" className="mr-2 text-lg font-semibold">Filtrar por:</label>
+            <label
+              htmlFor="filtro"
+              className="mr-2 text-lg font-semibold"
+            >
+              Filtrar por:
+            </label>
             <select
               id="filtro"
               className="border border-gray-300 p-2 rounded-lg"
@@ -159,9 +174,7 @@ export default function PerfilEmpresa() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filteredJobs.length > 0 ? (
-              filteredJobs.map((job) => (
-                <JobCard key={job._id} {...job} />
-              ))
+              filteredJobs.map((job) => <JobCard key={job._id} {...job} />)
             ) : (
               <p>No hay vacantes publicadas para el filtro seleccionado.</p>
             )}
