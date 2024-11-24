@@ -35,7 +35,7 @@ export default function Login() {
     let response;
 
     try {
-      response = await axios.post('http://localhost:3500/api/auth/login', JSON.stringify(datosFormulario), {
+      response = await axios.post('http://localhost:3000/api/auth/login', JSON.stringify(datosFormulario), {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -63,7 +63,7 @@ export default function Login() {
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
               Correo electrónico
             </label>
-            <input onChange={handleChange} name='identifier' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Correo electrónico" required />
+            <input onChange={handleChange} name='email' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Correo electrónico" required />
           </div>
           <div className="mb-6">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
