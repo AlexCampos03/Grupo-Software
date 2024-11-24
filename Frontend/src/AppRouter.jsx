@@ -22,6 +22,12 @@ import { AuthProvider } from './context/AuthProvide';
 import ProtectedRoutes from './Routes/ProtectedRoutes';
 import UnauthorizedPage from './pages/Unauthorized';
 import Testimony from './components/Testimony';
+
+import Seguridad from './pages/Seguridad';
+import CV from './CV/CV';
+
+
+
 const AppRouter = () => {
   return (
     <AuthProvider>
@@ -40,6 +46,11 @@ const AppRouter = () => {
           <Route path="/testimonios/1" element={<Testimony number={1} />} />
           <Route path="/testimonios/2" element={<Testimony number={2} />} />
           <Route path="/Ayuda" element={<Ayuda />} />
+          <Route path="/Seguridad" element={<Seguridad />} />
+
+          <Route path="/CV" element={<CV />} />
+          
+
           <Route path="/unauthorized" element={<UnauthorizedPage/>} />
 
           <Route path="/admin" element={<AdminNavbar />}/>

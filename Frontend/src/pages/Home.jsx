@@ -23,6 +23,11 @@ import LogoDynatrace from '../assets/dyntrace.svg';
 import LogoOracle from '../assets/oracle.svg';
 import LogoVmware from '../assets/vmware.svg';
 
+
+import { useNavigate } from 'react-router-dom';
+
+
+
 const NewPage = () => {
     const settings = {
         dots: true,
@@ -33,6 +38,18 @@ const NewPage = () => {
         autoplay: true,
         autoplaySpeed: 2500,
     };
+
+    const navigate = useNavigate(); // navegación
+
+    const cards = [
+        { image: Trabajos, title: 'Trabajos', bgColor: 'bg-blue-600', path: '/trabajos' },
+        { image: Pasantias, title: 'Pasantías', bgColor: 'bg-green-600', path: '/pasantias' },
+        { image: Datos, title: 'Empresas', bgColor: 'bg-teal-600', path: '/empresas' },
+        { image: Ayuda, title: 'Ayuda', bgColor: 'bg-indigo-600', path: '/ayuda' },
+        { image: Innovacion, title: 'Innovación y Seguridad', bgColor: 'bg-purple-600', path: '/Seguridad' },
+    ];
+
+    
 
     return (
         <div className="new-page-container overflow-x-hidden">
@@ -72,18 +89,18 @@ const NewPage = () => {
                 </section>
 
                 
+
                 <section className="grid grid-cols-1 md:grid-cols-5 gap-4 text-center p-4">
-                    {[
-                        { image: Trabajos, title: 'Trabajos', bgColor: 'bg-blue-600' },
-                        { image: Pasantias, title: 'Pasantías', bgColor: 'bg-green-600' },
-                        { image: Datos, title: 'Empresas', bgColor: 'bg-teal-600' },
-                        { image: Ayuda, title: 'Ayuda', bgColor: 'bg-indigo-600' },
-                        { image: Innovacion, title: 'Innovación y Seguridad', bgColor: 'bg-purple-600' },
-                    ].map((card, index) => (
+                    {cards.map((card, index) => (
                         <div
                             key={index}
+                            onClick={() => navigate(card.path)} 
                             className={`${card.bgColor} relative cursor-pointer transition duration-300 ease-in-out transform hover:scale-105`}
-                            style={{ backgroundImage: `url(${card.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                            style={{
+                                backgroundImage: `url(${card.image})`,
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                            }}
                         >
                             <div className="absolute inset-0 bg-black bg-opacity-50"></div>
                             <h3 className="relative z-10 text-white font-semibold py-20">{card.title}</h3>
@@ -110,7 +127,6 @@ const NewPage = () => {
                     </div>
                 </section>
 
-                
                 <section className="bg-gray-100 py-4">
                     <div className="container mx-auto text-center">
                         <h2 className="text-lg font-bold uppercase text-blue-600 mb-4">Partners</h2>
