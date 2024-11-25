@@ -18,7 +18,7 @@ const AdminApplicationsPage = () => {
     const fetchApplications = async () => {
       try {
         // Obtener el token de autenticación desde localStorage
-        const token = localStorage.getItem('authToken');
+        const token = localStorage.getItem('token');
 
         // Realizar la solicitud a la API con el token en los encabezados
         const response = await axios.get('GET http://localhost:3000/api/applications/:ofertaId', {

@@ -16,9 +16,6 @@ import Ayuda from './pages/Ayuda';
 import Politicas from './pages/Politicas';
 import EmpresaOF from './Post/EmpresaOF';
 import Respuestas from './Post/RespuestaOF';
-
-import Ayuda from './pages/Ayuda'
-import Politicas from './pages/Politicas'
 import AdminUsersPage from './Administration/userList';
 import AdminApplicationsPage from './Administration/adminsupervisar';
 import AdminOffersPage from './Administration/adminofertas';

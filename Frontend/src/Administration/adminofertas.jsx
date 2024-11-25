@@ -1,41 +1,49 @@
 import React, { useState, useEffect } from 'react';
-import AdminNavbar from '../components/AdminNavbar';
 import axios from 'axios';
 
-const OfferCard = ({ title, datePosted, recruiterName }) => (
+// Componente para mostrar cada oferta
+const OfferCard = ({ tittle, description, company, applicants }) => (
   <div className="bg-white rounded-lg shadow-lg p-6">
-    <h3 className="text-lg font-bold">{title}</h3>
-    <p className="text-gray-800">Publicado por: {recruiterName}</p>
-    <p className="text-gray-500">Fecha: {new Date(datePosted).toLocaleDateString()}</p>
+    <h3 className="text-lg font-bold">{tittle}</h3>
+    <p className="text-gray-800 mt-2">{description}</p>
+    <p className="text-gray-600 mt-2">Empresa: {company}</p>
+    <p className="text-gray-500 mt-2">Postulantes: {applicants.length || 0}</p>
   </div>
 );
 
 const AdminOffersPage = () => {
-  const [offers, setOffers] = useState([]);
-  const [error, setError] = useState(null);
+  const [offers, setOffers] = useState([]); 
+  const [error, setError] = useState(null); 
 
   useEffect(() => {
     const fetchOffers = async () => {
       try {
-        // Obtener el token de autenticación desde localStorage
-        const token = localStorage.getItem('authToken');
-        
-        // Realizar la solicitud a la API con el token incluido en los encabezados
-        const response = await axios.get('http://localhost:3000/api/applications', {
+        const token = localStorage.getItem('token'); 
+
+        const response = await axios.get('http://localhost:3000/api/job-offers', {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`, 
           },
         });
+
+        // Depuración: imprime los datos recibidos de la API
+        console.log('Datos de la API:', response.data);
+
         
-        // Actualizar el estado con las ofertas recibidas
-        setOffers(response.data.offers);
+        if (Array.isArray(response.data)) {
+          setOffers(response.data); // 
+        } else if (response.data.offers && Array.isArray(response.data.offers)) {
+          setOffers(response.data.offers); // 
+        } else {
+          throw new Error('Formato de datos inesperado'); 
+        }
       } catch (err) {
         console.error('Error al obtener las ofertas:', err);
         setError('No se pudieron cargar las ofertas. Inténtalo más tarde.');
       }
     };
 
-    fetchOffers();
+    fetchOffers(); 
   }, []);
 
   return (
@@ -45,9 +53,19 @@ const AdminOffersPage = () => {
         <div className="text-red-500 text-center">{error}</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {offers.map((offer) => (
-            <OfferCard key={offer._id} {...offer} />
-          ))}
+          {offers.length > 0 ? (
+            offers.map((offer) => (
+              <OfferCard
+                key={offer._id}
+                tittle={offer.tittle}
+                description={offer.description}
+                company={offer.company || 'Sin especificar'}
+                applicants={offer.applicants || []}
+              />
+            ))
+          ) : (
+            <p className="text-center text-gray-500 col-span-3">No hay ofertas disponibles.</p>
+          )}
         </div>
       )}
     </div>
