@@ -67,17 +67,22 @@ exports.login = async (req, res) => {
 
     try {  
         // Buscar el usuario por correo electrónico  
-        const user = await User.findOne({ email });
-        const role = user.role;  
+        let user = await User.findOne({ email });  
         if (!user) {  
-            return res.status(400).json({ message: 'Credenciales inválidas' });  
+            user = await Company.findOne({ email });  
         }  
+
+        if (!user) {  
+            return res.status(404).json({ message: 'Usuario no encontrado' });  
+        }
 
         // Comparar la contraseña proporcionada con la almacenada  
         const isMatch = await bcrypt.compare(password, user.password);  
         if (!isMatch) {  
             return res.status(400).json({ message: 'Credenciales inválidas' });  
         }  
+
+        const role = user.role;
 
         // Generar un token JWT  
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });  
