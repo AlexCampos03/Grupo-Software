@@ -1,3 +1,4 @@
+// models/JobOffer.js  
 const mongoose = require('mongoose');  
 
 const jobOfferSchema = new mongoose.Schema({  
@@ -11,13 +12,14 @@ const jobOfferSchema = new mongoose.Schema({
     },  
     company: {  
         type: mongoose.Schema.Types.ObjectId,  
-        ref: 'Company', // Asegúrate de que tienes el modelo Company definido  
+        ref: 'Company',  
         required: true,  
     },  
     applicants: [{  
         type: mongoose.Schema.Types.ObjectId,  
-        ref: 'User', // Asegúrate de que tienes el modelo User definido  
+        ref: 'User',  
     }],  
 }, { timestamps: true });  
 
-module.exports = mongoose.model('JobOffer', jobOfferSchema);
+const JobOffer = mongoose.model('JobOffer', jobOfferSchema);  
+module.exports = JobOffer;

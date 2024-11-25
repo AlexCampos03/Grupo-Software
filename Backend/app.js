@@ -26,7 +26,8 @@ app.use('/api/job-application', jobApplicationRoutes);
 app.use('/api/apply', applyRoutes);  
 app.use('/api/cv', cvRoutes);  
 app.use('/api/feedback', feedbackRoutes);  
-app.use('/api/job-offers', jobOfferRoutes); // Usar las rutas de ofertas de trabajo  
+app.use('/api/job-offers', jobOfferRoutes);  
+ 
 
 const PORT = process.env.PORT || 5000;  
 app.listen(PORT, () => {  
