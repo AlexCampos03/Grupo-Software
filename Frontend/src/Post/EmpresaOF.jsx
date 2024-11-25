@@ -42,7 +42,7 @@ export default function EmpresaOF() {
         alert('Oferta actualizada exitosamente.');
       } else {
         // Crear nueva oferta
-        await axios.post('/api/empresa/ofertas', formData);
+        await axios.post('/', formData);
         alert('Oferta creada exitosamente.');
       }
       navigate('/PerfilE'); // Redirigir al perfil de empresa

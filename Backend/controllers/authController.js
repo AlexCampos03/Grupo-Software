@@ -2,6 +2,7 @@ const User = require('../models/User');
 const Company = require('../models/Company');  
 const bcrypt = require('bcrypt');  
 const jwt = require('jsonwebtoken');  
+const { request } = require('express');
 
 // Registrar un nuevo usuario (candidato)  
 exports.registerUser = async (req, res) => {  
@@ -61,6 +62,22 @@ exports.registerCompany = async (req, res) => {
     }  
 };  
 
+// Obtener información de la empresa autenticada
+exports.getCompanyInfo = async (req, res) => {  
+    const {id} = req.params;
+    try {  
+        // Obtener la empresa a partir del ID del token  
+        const company = await Company.findById(id).select('-password'); // Excluir la contraseña  
+        if (!company) {  
+            return res.status(404).json({ message: 'Empresa no encontrada' });  
+        }  
+
+        res.status(200).json(company);  
+    } catch (error) {  
+        res.status(500).json({ message: 'Error al obtener información de la empresa', error });  
+    }  
+};
+
 // Iniciar sesión  
 exports.login = async (req, res) => {  
     const { email, password } = req.body;  
@@ -83,11 +100,12 @@ exports.login = async (req, res) => {
         }  
 
         const role = user.role;
+        const id = user.id;
 
         // Generar un token JWT  
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });  
 
-        res.status(200).json({ message: 'Inicio de sesión exitoso', token, role});  
+        res.status(200).json({ message: 'Inicio de sesión exitoso', token, role, id});  
     } catch (error) {  
         res.status(500).json({ message: 'Error al iniciar sesión', error });  
     }  

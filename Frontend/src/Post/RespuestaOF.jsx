@@ -10,7 +10,7 @@ const PaginaRespuestas = () => {
         const fetchRespuestas = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get('http://localhost:3500/api/respuestas', {
+                const response = await axios.get('/', {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },

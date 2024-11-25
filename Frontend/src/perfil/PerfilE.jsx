@@ -12,11 +12,16 @@ export default function PerfilEmpresa() {
   useEffect(() => {
     const obtenerDatosEmpresa = async () => {
       try {
+        const token = localStorage.getItem('token');
         // Obtener datos reales de la API
-        const perfilResponse = await axios.get('/api/empresa/perfil');
+        const perfilResponse = await axios.get('http://localhost:3000/api/auth/companyinfo:id', {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
+        });
         setPerfil(perfilResponse.data);
 
-        const ofertasResponse = await axios.get('/api/empresa/ofertas');
+        const ofertasResponse = await axios.get('/');
         setJobs(ofertasResponse.data);
       } catch (error) {
         console.error('Error al obtener los datos:', error);
