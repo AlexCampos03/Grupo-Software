@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import AdminNavbar from '../components/AdminNavbar';
-
 import axios from 'axios';
 
-const UserCard = ({ name, email, role }) => (
+const UserCard = ({ firstName, lastName, email, telephone, birthDate, department, municipality, gender }) => (
   <div className="bg-white rounded-lg shadow-lg p-6">
-    <h3 className="text-lg font-bold">{name}</h3>
-    <p className="text-gray-800">{email}</p>
-    <p className="text-gray-500">{role}</p>
+    <h3 className="text-lg font-bold">{firstName} {lastName}</h3>
+    <p className="text-gray-800"><strong>Email:</strong> {email}</p>
+    <p className="text-gray-800"><strong>Teléfono:</strong> {telephone}</p>
+    <p className="text-gray-800"><strong>Fecha de Nacimiento:</strong> {new Date(birthDate).toLocaleDateString()}</p>
+    <p className="text-gray-800"><strong>Departamento:</strong> {department}</p>
+    <p className="text-gray-800"><strong>Municipio:</strong> {municipality}</p>
+    <p className="text-gray-800"><strong>Género:</strong> {gender}</p>
   </div>
 );
 
@@ -19,17 +21,17 @@ const AdminUsersPage = () => {
     const fetchUsers = async () => {
       try {
         // Obtener el token de autenticación desde localStorage
-        const token = localStorage.getItem('authToken');
-        
-        // Realizar la solicitud a la API con el token en los encabezados
-        const response = await axios.get('http://localhost:3500/api/users', {
+        const token = localStorage.getItem('token');
+
+        // Realizar la solicitud a la API
+        const response = await axios.get('http://localhost:3000/api/user', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        
+
         // Actualizar el estado con los usuarios obtenidos
-        setUsers(response.data.users);
+        setUsers(response.data); // Nota: `response.data` ya es un arreglo en tu caso
       } catch (err) {
         console.error('Error al obtener los usuarios:', err);
         setError('No se pudieron cargar los usuarios. Inténtalo más tarde.');
@@ -40,7 +42,7 @@ const AdminUsersPage = () => {
   }, []);
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-6 min-h-screen">
       <h1 className="text-3xl font-bold text-center my-6">Usuarios Registrados</h1>
       {error ? (
         <div className="text-red-500 text-center">{error}</div>
