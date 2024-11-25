@@ -12,7 +12,7 @@ const jobOfferSchema = new mongoose.Schema({
     },  
     company: {  
         type: mongoose.Schema.Types.ObjectId,  
-        ref: 'Company',  
+        ref: 'String',  
         required: true,  
     },  
     applicants: [{  
