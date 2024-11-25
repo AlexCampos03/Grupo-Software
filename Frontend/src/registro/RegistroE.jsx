@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { useState } from 'react';
 
 const PaginaRegistro = () => {
-    // Estado inicial adaptado para los nuevos datos, incluyendo ruc
     const [datosFormulario, setDatosFormulario] = useState({
         companyName: '',
         email: '',
@@ -11,10 +10,8 @@ const PaginaRegistro = () => {
         department: '',
         municipality: '',
         description: '',
-        ruc: '', // Campo ruc agregado
     });
 
-    // Estado para manejar municipios dinámicos
     const [municipios, setMunicipios] = useState([]);
 
     // Relación de departamentos con municipios
@@ -35,20 +32,20 @@ const PaginaRegistro = () => {
         "La Unión": ["La Unión", "Conchagua", "Santa Rosa de Lima", "Pasaquina", "San Alejo", "El Sauce"],
     };
 
-    // Manejar el cambio en los campos del formulario
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
 
         if (name === 'department') {
-            // Actualizar municipios y reiniciar el campo de municipio
+           
             setMunicipios(departamentosYMunicipios[value] || []);
             setDatosFormulario((prevDatos) => ({
                 ...prevDatos,
-                [name]: value, // Actualiza el departamento seleccionado
-                municipality: '', // Reinicia el municipio al cambiar de departamento
+                [name]: value, 
+                municipality: '', 
             }));
         } else {
-            // Actualizar cualquier otro campo
+            
             setDatosFormulario((prevDatos) => ({
                 ...prevDatos,
                 [name]: value,
@@ -56,12 +53,12 @@ const PaginaRegistro = () => {
         }
     };
 
-    // Manejar el envío del formulario
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            // Envía los datos del formulario al backend
+            
             const response = await axios.post(
                 'http://localhost:3000/api/auth/register-company',
                 JSON.stringify(datosFormulario),
@@ -122,15 +119,6 @@ const PaginaRegistro = () => {
                     value={datosFormulario.password}
                     onChange={handleChange}
                     placeholder="Contraseña"
-                    className="bg-black/40 backdrop-blur-sm p-2 rounded border border-white/40 placeholder-white/70 text-white"
-                    required
-                />
-                <input
-                    type="text"
-                    name="ruc"
-                    value={datosFormulario.ruc}
-                    onChange={handleChange}
-                    placeholder="RUC"
                     className="bg-black/40 backdrop-blur-sm p-2 rounded border border-white/40 placeholder-white/70 text-white"
                     required
                 />
