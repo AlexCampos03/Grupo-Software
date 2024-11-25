@@ -25,6 +25,10 @@ import ProtectedRoutes from './Routes/ProtectedRoutes';
 import UnauthorizedPage from './pages/Unauthorized';
 import Testimony from './components/Testimony';
 
+import Seguridad from './pages/Seguridad';
+import CV from './CV/CV';
+import TrabajosAP from './pages/TrabajosAP';
+
 // Navbar dinámico basado en el rol del usuario
 const DynamicNavbar = () => {
   const { userRole } = useAuth();
@@ -55,6 +59,12 @@ const AppRouter = () => {
           <Route path="/testimonios/2" element={<Testimony number={2} />} />
           <Route path="/Ayuda" element={<Ayuda />} />
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
+
+          <Route path="/CV" element={<CV />} />
+
+          <Route path="/TrabajosAP" element={<TrabajosAP />} />
+
+
 
           {/* Rutas protegidas para administrador */}
           <Route

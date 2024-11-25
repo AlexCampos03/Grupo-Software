@@ -60,7 +60,7 @@ const PaginaRegistro = () => {
         try {
             
             const response = await axios.post(
-                'http://localhost:3000/api/auth/register-company',
+                'https://api-grupo-software.onrender.com/api/auth/register-company',
                 JSON.stringify(datosFormulario),
                 {
                     headers: {

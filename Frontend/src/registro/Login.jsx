@@ -51,7 +51,7 @@ export default function Login() {
     let response;
 
     try {
-      response = await axios.post('http://localhost:3000/api/auth/login', JSON.stringify(datosFormulario), {
+      response = await axios.post('https://api-grupo-software.onrender.com/api/auth/login', JSON.stringify(datosFormulario), {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -59,7 +59,7 @@ export default function Login() {
 
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('role', response.data.role);
-      localStorage.setItem('id', response.data.id);
+      localStorage.setItem('id', response.id )
       login(response.data.role);
       alert("Logeado correctamente")
       setShouldNavigate(true);

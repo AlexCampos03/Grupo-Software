@@ -29,7 +29,7 @@ const TrabajosPage = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        let url = 'http://localhost:3500/api/vacant/work'; // Reemplaza con tu URL real
+        let url = 'https://api-grupo-software.onrender.com/api/vacant/work'; // Reemplaza con tu URL real
         if (search) {
           url += `/categoria=${search}`; // Asume que la API puede filtrar por categoría
         }

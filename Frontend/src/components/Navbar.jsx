@@ -4,7 +4,7 @@ import Logo from '../assets/Logo.svg';
 import { useAuth } from '../context/AuthProvide';
 
 const Navbar = () =>  {
-    const { userRole, isAuthenticated} = useAuth();
+    const { userRole, isAuthenticated, logout} = useAuth();
     const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
 
@@ -18,9 +18,9 @@ const Navbar = () =>  {
     setIsOpen(!isOpen);
   };
 
-  const logout = () => {
+  const logout_ = () => {
     localStorage.removeItem('token'); // Elimina el token del localStorage
-    setIsAuthenticated(false); // Cambiar estado a no autenticado
+    logout();
     window.location.href = '/'; // Redirigir al inicio
   };
 
@@ -59,12 +59,21 @@ const Navbar = () =>  {
               </Link>
 
               <Link
+                to="/TrabajosAP"
+                className="text-white hover:text-opacity-75 block px-3 py-2 rounded-md text-base font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                Trabajos Aplicados
+              </Link>
+
+              <Link
                 to="/CV"
                 className="text-white hover:text-opacity-75 block px-3 py-2 rounded-md text-base font-medium"
                 onClick={() => setIsOpen(false)}
               >
                 Mi CV
               </Link>
+
             </>
           )}
 
@@ -91,7 +100,7 @@ const Navbar = () =>  {
             // Mostrar "Cerrar sesión" si está autenticado
             <div className="flex items-center space-x-4">
               <button
-                onClick={logout}
+                onClick={logout_}
                 className="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md transition"
               >
                 Cerrar sesión

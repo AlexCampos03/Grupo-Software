@@ -1,147 +1,242 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function PerfilUsuario() {
-  const [perfil, setPerfil] = useState(null);
-  const [isUser, setIsUser] = useState(true); // Aquí agregué un estado para saber si el usuario está logueado o no
-  const [jobs, setJobs] = useState([]);
+  const [perfil, setPerfil] = useState({
+    firstName: "",
+    lastName: "",
+    birthDate: "",
+    department: "",
+    telephone: "",
+    email: "",
+    description: "",
+    image: null, // Para almacenar la imagen
+    imagePreview: null, // Para previsualizar la imagen
+  });
+  const [isSaved, setIsSaved] = useState(false); // Determina si ya hay un perfil guardado
+  const [loading, setLoading] = useState(true);
 
-  const JobCard = ({ name, company, esPasantia, image }) => { // Hook para manejar la navegación
-
-    const handleViewMore = (_id) => {
-      navigate(`/trabajosuo/${_id}`);
-    };
-
-    return (
-      <div className="bg-white rounded-lg shadow-lg p-6 relative">
-        <img src={image} alt={name} className="w-full h-32 object-cover" />
-        <h3 className="text-lg font-bold mt-4">{name}</h3>
-        <p className="text-gray-800">{company.companyName}</p>
-        <p className="text-gray-500">{esPasantia ? "Pasantia" : "Trabajo"}</p>
-      </div>
-    );
-  };
-
+  // Obtener datos del perfil al cargar
   useEffect(() => {
     const obtenerDatosUsuario = async () => {
       try {
-        const respuesta = await axios.get('http://localhost:3000/api/auth/whoami', {
+        const response = await axios.get("https://api-grupo-software.onrender.com/api/vacant/work", {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-        }); // Sustituye con tu URL real
-        setPerfil(respuesta.data); // Suponiendo que la API responde con los datos del usuario directamente
-
-        if (respuesta.data.roles[0] === "user") {
-          setIsUser(true);
-          // console.log("es usuario");
-        } else {
-
-          setIsUser(false);
-          const respuesta = await axios.get('http://localhost:3000/api/vacant/own', {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        if (response.data) {
+          setPerfil({
+            ...response.data,
+            imagePreview: response.data.image || null, // Configura la previsualización si ya existe una imagen
           });
-          // console.log(respuesta.data.vacants);
-          setJobs(respuesta.data.vacants);
+          setIsSaved(true); // Perfil ya guardado
         }
-
       } catch (error) {
-        console.error('Hubo un error al obtener los datos del usuario:', error);
+        console.error("Error al obtener el perfil del usuario:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     obtenerDatosUsuario();
   }, []);
 
-  if (!perfil) {
+  // Manejar cambios en los inputs
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setPerfil({ ...perfil, [name]: value });
+  };
+
+  // Manejar cambio en el input de imagen
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setPerfil({
+      ...perfil,
+      image: file,
+      imagePreview: file ? URL.createObjectURL(file) : perfil.imagePreview, // Previsualizar la imagen seleccionada
+    });
+  };
+
+  // Guardar perfil
+  const guardarPerfil = async () => {
+    const formData = new FormData();
+    Object.keys(perfil).forEach((key) => {
+      if (perfil[key]) formData.append(key, perfil[key]);
+    });
+
+    try {
+      const response = await axios.post("http://localhost:3000/api/vacant/work", formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("Perfil guardado:", response.data);
+      setIsSaved(true); // Actualizar estado de guardado
+      alert("Perfil guardado exitosamente.");
+    } catch (error) {
+      console.error("Error al guardar el perfil:", error);
+      alert("Hubo un error al guardar el perfil.");
+    }
+  };
+
+  // Actualizar perfil
+  const actualizarPerfil = async () => {
+    const formData = new FormData();
+    Object.keys(perfil).forEach((key) => {
+      if (perfil[key]) formData.append(key, perfil[key]);
+    });
+
+    try {
+      const response = await axios.put("http://localhost:3000/api/vacant/work", formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("Perfil actualizado:", response.data);
+      alert("Perfil actualizado exitosamente.");
+    } catch (error) {
+      console.error("Error al actualizar el perfil:", error);
+      alert("Hubo un error al actualizar el perfil.");
+    }
+  };
+
+  if (loading) {
     return <div>Cargando perfil...</div>;
   }
 
   return (
-    <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg my-6">
-      {isUser ?
-        (<div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          {/* Columna Izquierda: Datos generales y contacto */}
-          <div className="col-span-1 bg-blue-600 p-4 rounded-lg text-white">
-            <h3 className="text-xl font-bold mb-4">Datos Generales</h3>
-            <p><strong>Nombres:</strong> {perfil.firstName}</p>
-            <p><strong>Apellidos:</strong> {perfil.lastName}</p>
-            <p><strong>Fecha de nacimiento:</strong> {perfil.birthDate}</p>
-            {/* <p><strong>Profesión:</strong> {perfil.profesion}</p> */}
-            <div className="mt-4">
-              <h3 className="text-xl font-bold mb-4">Contacto</h3>
-              <p><strong>Teléfono:</strong> {perfil.telephone}</p>
-              <p><strong>Correo:</strong> {perfil.email}</p>
-              <p><strong>Departamento:</strong> {perfil.department}</p>
-            </div>
-          </div>
+    <div className="container mx-auto p-6 bg-gradient-to-b from-blue-800 to-teal-500 rounded-lg shadow-lg">
+      <h1 className="text-3xl font-bold text-white text-center mb-6">PERFIL</h1>
 
-          {/* Columna Central: Descripción, habilidades y competencias */}
-          <div className="col-span-2">
-            <div className="mb-4">
-              <h3 className="text-xl font-bold mb-2">Descripción</h3>
-              {/* <p>{perfil.descripcion}</p> */}
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <h3 className="text-xl font-bold mb-2">Habilidades</h3>
-                <ul className="list-disc ml-5">
-                  {perfil.habilities.map((habilities, index) => (
-                    <li key={index}>{habilities}</li>
-
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold mb-2">Competencias</h3>
-                <ul className="list-disc ml-5">
-                  {perfil.competences.map((competences, index) => (
-                    <li key={index}>{competences}</li>
-                  ))}
-                </ul>
-              </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Columna de Datos Generales */}
+        <div className="bg-blue-600 p-6 rounded-lg text-white">
+          <h3 className="text-xl font-bold mb-4">DATOS GENERALES</h3>
+          <div className="space-y-4">
+            <div>
+              <label className="block font-semibold">Nombres:</label>
+              <input
+                type="text"
+                name="firstName"
+                value={perfil.firstName}
+                onChange={handleChange}
+                className="w-full p-2 rounded bg-white text-black"
+              />
             </div>
             <div>
-              <br />
-              <h3 className="text-xl font-bold mb-2">Características</h3>
-              {/* Suponiendo que perfil.caracteristicas es un objeto con clave y valor booleano */}
-              <div className="flex flex-wrap">
-                <ul className="list-disc ml-5">
-                  {perfil.caracteristics.map((caracteristics, index) => (
-                    <li key={index}>{caracteristics}</li>
-                  ))}
-                </ul>
-              </div>
-              <br />
-              {/* <button className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-full transition duration-300"> */}
-              <Link to="/UsuarioCV" className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-full transition duration-300">
-                Editar Perfil
-              </Link>
+              <label className="block font-semibold">Apellidos:</label>
+              <input
+                type="text"
+                name="lastName"
+                value={perfil.lastName}
+                onChange={handleChange}
+                className="w-full p-2 rounded bg-white text-black"
+              />
+            </div>
+            <div>
+              <label className="block font-semibold">Fecha de Nacimiento:</label>
+              <input
+                type="date"
+                name="birthDate"
+                value={perfil.birthDate}
+                onChange={handleChange}
+                className="w-full p-2 rounded bg-white text-black"
+              />
+            </div>
+            <div>
+              <label className="block font-semibold">Teléfono:</label>
+              <input
+                type="text"
+                name="telephone"
+                value={perfil.telephone}
+                onChange={handleChange}
+                className="w-full p-2 rounded bg-white text-black"
+              />
+            </div>
+            <div>
+              <label className="block font-semibold">Correo:</label>
+              <input
+                type="email"
+                name="email"
+                value={perfil.email}
+                onChange={handleChange}
+                className="w-full p-2 rounded bg-white text-black"
+              />
+            </div>
+            <div>
+              <label className="block font-semibold">Departamento:</label>
+              <input
+                type="text"
+                name="department"
+                value={perfil.department}
+                onChange={handleChange}
+                className="w-full p-2 rounded bg-white text-black"
+              />
             </div>
           </div>
-        </div>) : (
-          <div className="bg-white shadow rounded-lg p-6">
-            <h2 className="text-2xl font-bold mb-4">{perfil.companyName}</h2>
-            <p className="mb-2"><span className="font-semibold">Departamento:</span> {perfil.department}</p>
-            <p className="mb-4"><span className="font-semibold">Email:</span> {perfil.email}</p>
-            <br />
-            <Link to="/EmpresaOF" className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-full transition duration-300">
-              Agregar Vacante
-            </Link>
-            <div className="container mx-auto p-6">
-              <h1 className="text-3xl font-bold text-center my-6">Vacantes propias publicadas</h1>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {jobs.map((job) => (
-                  <JobCard key={job._id} {...job} image={job.imageUrl} />
-                ))}
-              </div>
+        </div>
 
-            </div>
+        {/* Imagen y Descripción */}
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h3 className="text-xl font-bold mb-4 text-blue-600">IMAGEN</h3>
+          <div className="mb-4 text-center">
+            {perfil.imagePreview ? (
+              <img
+                src={perfil.imagePreview}
+                alt="Imagen seleccionada"
+                className="w-full h-48 object-contain rounded-lg mb-4" // Cambia "object-cover" a "object-contain" si no quieres que se recorte
+              />
+            ) : (
+              <div className="w-full h-48 flex items-center justify-center bg-gray-200 text-gray-600 rounded-lg mb-4">
+                Sin imagen seleccionada
+              </div>
+            )}
+            <label htmlFor="file-upload" className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition">
+              Seleccionar Imagen
+            </label>
+            <input
+              id="file-upload"
+              type="file"
+              name="image"
+              onChange={handleImageChange}
+              className="hidden"
+              accept="image/*"
+            />
           </div>
+          <h3 className="text-xl font-bold mb-4 text-blue-600">DESCRIPCIÓN</h3>
+          <textarea
+            name="description"
+            value={perfil.description}
+            onChange={handleChange}
+            rows="6"
+            className="w-full p-3 border rounded bg-gray-100 text-black"
+            placeholder="Describe tu perfil profesional..."
+          ></textarea>
+        </div>
+
+      </div>
+
+      {/* Botones de Guardar/Actualizar */}
+      <div className="mt-6 text-center">
+        {!isSaved ? (
+          <button
+            onClick={guardarPerfil}
+            className="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 transition"
+          >
+            Guardar Perfil
+          </button>
+        ) : (
+          <button
+            onClick={actualizarPerfil}
+            className="bg-yellow-500 text-white px-6 py-2 rounded-full hover:bg-yellow-600 transition"
+          >
+            Actualizar Perfil
+          </button>
         )}
+      </div>
     </div>
   );
 }

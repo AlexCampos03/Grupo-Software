@@ -24,7 +24,7 @@ const AdminUsersPage = () => {
         const token = localStorage.getItem('token');
 
         // Realizar la solicitud a la API
-        const response = await axios.get('http://localhost:3000/api/user', {
+        const response = await axios.get('https://api-grupo-software.onrender.com/api/user', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

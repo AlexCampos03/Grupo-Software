@@ -20,7 +20,7 @@ const AdminOffersPage = () => {
       try {
         const token = localStorage.getItem('token'); 
 
-        const response = await axios.get('http://localhost:3000/api/job-offers', {
+        const response = await axios.get('https://api-grupo-software.onrender.com/api/job-offers', {
           headers: {
             Authorization: `Bearer ${token}`, 
           },

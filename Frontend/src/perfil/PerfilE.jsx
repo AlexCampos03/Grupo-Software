@@ -14,7 +14,7 @@ export default function PerfilEmpresa() {
       try {
         const token = localStorage.getItem('token');
         // Obtener datos reales de la API
-        const perfilResponse = await axios.get('http://localhost:3000/api/auth/companyinfo:id', {
+        const perfilResponse = await axios.get('https://api-grupo-software.onrender.com/api/auth/companyinfo:id', {
           headers:{
             Authorization:`Bearer ${token}`
           }

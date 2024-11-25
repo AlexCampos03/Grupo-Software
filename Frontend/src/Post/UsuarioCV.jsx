@@ -71,7 +71,7 @@ const PaginaRegistro = () => {
   useEffect(() => {
     const obtenerDatos = async () => {
       try {
-        const respuesta = await axios.get("http://localhost:3500/api/auth/whoami", {
+        const respuesta = await axios.get("https://api-grupo-software.onrender.com/api/auth/whoami", {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
@@ -139,7 +139,7 @@ const PaginaRegistro = () => {
 
     try {
       console.log(datosFormulario);
-      const respuesta = await axios.patch(`http://localhost:3500/api/auth/edit-user-profile/${id}`, datosFormulario, {
+      const respuesta = await axios.patch(`https://api-grupo-software.onrender.com/api/auth/edit-user-profile/${id}`, datosFormulario, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
