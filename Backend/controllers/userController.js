@@ -19,7 +19,7 @@ exports.getUsers = async (req, res) => {
     try {
         const users = await User.find({role: { $ne: 'admin' }}).select('-password -roles -salt -hashedPassword -role -tokens');
         res.json(users);
-    } catch (errpr) {
+    } catch (error) {
         res.status(500).json({ message: 'Error getting users', error });
     }
 }
